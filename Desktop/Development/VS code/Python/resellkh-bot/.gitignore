@@ -1,0 +1,13 @@
+# Ignore the virtual environment folder
+venv/
+
+# Ignore Python cache files
+__pycache__/
+*.pyc
+
+# Ignore any potential config files with secrets
+# This is a good safety measure even if you've deleted it
+bot/config.py
+
+# Ignore any database files if you add them later
+*.db
