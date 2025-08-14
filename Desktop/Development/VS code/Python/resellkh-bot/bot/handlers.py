@@ -2,25 +2,39 @@
 
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import ContextTypes
-from .config import WEBSITE_URL
 
-# /start command
-async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
+# IMPORTANT: You must have LOGIN_URL and REGISTER_URL defined in your config.py
+from .config import WEBSITE_URL, LOGIN_URL, REGISTER_URL
+
+def get_main_menu_keyboard():
+    """Returns the keyboard with links to your website."""
     keyboard = [
-        [InlineKeyboardButton("Open My Website 🌐", url=WEBSITE_URL)],
-        [InlineKeyboardButton("Open in Browser 🌍", url=WEBSITE_URL + "?open=external")]
+        [InlineKeyboardButton("🛍️ Visit Our Shop", url=WEBSITE_URL)],
+        [
+            InlineKeyboardButton("✅ Register", url=REGISTER_URL),
+            InlineKeyboardButton("🔑 Login", url=LOGIN_URL)
+        ],
+        [
+            InlineKeyboardButton("🎵 TikTok", url="https://www.tiktok.com/@resellkh"),
+            InlineKeyboardButton("📘 Facebook", url="https://web.facebook.com/profile.php?id=61578886787081")
+        ],
+        [
+            InlineKeyboardButton("📰 Facebook Page", url="https://web.facebook.com/profile.php?id=61578988574380"),
+            InlineKeyboardButton("📢 Channel", url="https://t.me/resell_second_hand")
+        ]
     ]
-    reply_markup = InlineKeyboardMarkup(keyboard)
+    return InlineKeyboardMarkup(keyboard)
+
+async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Sends a welcome message with a link to the main menu."""
     await update.message.reply_text(
-        "Hello! 👋 Click a button below:",
-        reply_markup=reply_markup
+        "Welcome to ResellKH! Please visit our website to register or log in.",
+        reply_markup=get_main_menu_keyboard()
     )
 
-# Example of future expansion command
-async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
+async def menu(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Displays the main inline menu."""
     await update.message.reply_text(
-        "This bot can open my website.\n"
-        "Commands:\n"
-        "/start - Show the main menu\n"
-        "/help - Show this help message"
+        text="👋 Here are our official links:",
+        reply_markup=get_main_menu_keyboard()
     )

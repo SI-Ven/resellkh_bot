@@ -2,16 +2,17 @@
 
 from telegram.ext import Application, CommandHandler
 from .config import TOKEN
-from .handlers import start, help_command
+from .handlers import start, menu
 
 def main():
+    """Sets up and runs the Telegram bot."""
     app = Application.builder().token(TOKEN).build()
 
-    # Add commands
+    # Add command handlers
     app.add_handler(CommandHandler("start", start))
-    app.add_handler(CommandHandler("help", help_command))
+    app.add_handler(CommandHandler("menu", menu))
 
-    print("Bot is running... Press Ctrl+C to stop.")
+    print("Bot is running... Press Ctrl-C to stop.")
     app.run_polling()
 
 if __name__ == "__main__":
